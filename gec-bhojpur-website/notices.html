@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notices | GEC Bhojpur</title>
+<meta name="description" content="Latest official notices from GEC Bhojpur.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="notices">
+<div id="site-header"></div>
+<main id="main" tabindex="-1">
+<div class="ph"><div class="container"><h1>Notices</h1><p>Newest first. Add each notice's PDF in assets/notices/ and link it in js/data.js.</p></div></div>
+<section class="sec"><div class="container">
+  <div class="tools"><input id="nq" type="search" placeholder="Search notices" aria-label="Search notices">
+    <button type="button" data-c="All">All</button><button type="button" data-c="Exam">Exam</button><button type="button" data-c="Admission">Admission</button><button type="button" data-c="Event">Event</button><button type="button" data-c="Welfare">Welfare</button><button type="button" data-c="Tender">Tender</button></div>
+  <ul class="nl" id="nlist"></ul>
+</div></section>
+</main>
+<div id="site-footer"></div>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

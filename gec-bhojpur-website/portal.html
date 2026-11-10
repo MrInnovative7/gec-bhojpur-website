@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal login | GEC Bhojpur</title>
+<meta name="description" content="Student, faculty and admin portal for GEC Bhojpur.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="portal">
+<div id="site-header"></div>
+<main id="main" tabindex="-1">
+<div class="ph"><div class="container"><h1>Portal</h1><p>One sign-in for students, faculty and administration.</p></div></div>
+<section class="sec"><div class="container two">
+  <div class="box"><div class="tabs" id="roles"><button type="button" class="on">Student</button><button type="button">Faculty</button><button type="button">Admin</button></div>
+    <form id="lf"><label for="u" id="ul">Registration number</label><input id="u" autocomplete="username"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password"><p></p><button class="btn btn-accent" type="submit">Sign in</button><div id="lm" class="msg" hidden></div></form></div>
+  <div><h2>What the portal will cover</h2>
+    <p><b>Students:</b> attendance, timetable, results, exam form, admit card, fees, grievances.</p>
+    <p><b>Faculty:</b> attendance entry, marks, study material, notices.</p>
+    <p><b>Admin and HOD:</b> users, notices, exam cell, fee reports, audit log.</p>
+    <p class="muted">The login backend is not connected yet. This form does not send or store any credentials.</p></div>
+</div></section>
+</main>
+<div id="site-footer"></div>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
