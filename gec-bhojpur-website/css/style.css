@@ -5193,30 +5193,23 @@ line-clamp: 5;
 }
 
 
+
 /* ==========================================================
-   MOBILE HEADER (IIT Delhi-inspired) - phones only, max-width 760px.
-   The new .m-header markup is hidden everywhere else, so the desktop
-   and tablet header is unchanged. The #site-header prefix is needed to
-   win over the earlier home-page header rules that use !important.
+   MOBILE HEADER — refined IIT Delhi-inspired layout.
+   All selectors are scoped to the phone breakpoint. Desktop
+   header structure and desktop presentation remain unchanged.
    ========================================================== */
-.m-header {
-  display: none;
-}
+.m-header { display: none; }
 
 @media (max-width: 760px) {
-
-  /* One solid maroon block with a thin gold edge; also overrides the home
-     transparent / scrolled (fixed-height) states */
   #site-header .site-header {
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
-    background: var(--header-maroon) !important;
-    border-bottom: 2px solid var(--chrome-accent) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .18) !important;
+    border: 0 !important;
+    box-shadow: none !important;
   }
 
-  /* Old utility strip and old header row are replaced on phones */
   #site-header .site-header > .header-top-info,
   #site-header .site-header > .bar {
     display: none !important;
@@ -5225,94 +5218,168 @@ line-clamp: 5;
   #site-header .m-header {
     display: block;
     position: relative;
+    width: 100%;
     max-width: 100%;
-    color: #FFFFFF;
+    color: #fff;
   }
 
-  /* Slim social + accessibility bar */
+  /* Homepage: the header floats transparently over the hero until scroll. */
+  body[data-page="home"] #site-header .site-header {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    z-index: 50 !important;
+  }
+
+  body[data-page="home"] #site-header .site-header:not(.m-compact)::before,
+  body[data-page="home"] #site-header .site-header:not(.m-compact)::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* The slim utility strip follows the clean, compact IIT Delhi arrangement. */
   #site-header .m-bar {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    height: 32px;
-    padding: 0 8px;
-    background: rgba(0, 0, 0, .16);
-    border-bottom: 1px solid rgba(255, 255, 255, .16);
+    column-gap: 7px;
+    min-height: 40px;
+    padding: 4px 8px;
+    background: #861C1C;
+    color: #fff;
+    border: 0;
   }
 
   #site-header .m-social {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 2px;
+    width: 100%;
+    max-width: 118px;
+    min-width: 0;
   }
 
   #site-header .m-social a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
+    flex: 0 0 25px;
+    width: 25px;
     height: 30px;
-    color: #FFFFFF;
+    padding: 0;
+    color: #fff;
     text-decoration: none;
+    opacity: .98;
   }
 
-  #site-header .m-social a.is-inactive {
-    cursor: default;
-  }
+  #site-header .m-social a.is-inactive { cursor: default; }
 
   #site-header .m-social svg {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 
   #site-header .m-lang {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
-    padding: 4px 2px;
-    background: none;
+    min-height: 30px;
+    padding: 0 2px;
     border: 0;
-    color: #FFFFFF;
-    font: 600 13px/1 "Noto Sans Devanagari", var(--font-body), sans-serif;
-    cursor: default;
+    background: transparent;
+    color: #fff;
+    font: 600 13px/1 "Noto Sans Devanagari", Arial, sans-serif;
     white-space: nowrap;
+    cursor: default;
   }
 
   #site-header .m-lang svg {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
+    flex: 0 0 17px;
+    stroke-width: 1.9;
   }
 
   #site-header .m-fs {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
   }
 
   #site-header .m-fs button {
-    min-width: 32px;
-    height: 24px;
-    padding: 0 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 27px;
+    padding: 0 5px;
+    border: 1px solid rgba(255,255,255,.68);
+    border-radius: 5px;
     background: transparent;
-    color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, .6);
-    border-radius: 4px;
-    font: 700 12px/1 var(--font-body);
+    color: #fff;
+    font: 600 12px/1 Arial, sans-serif;
     cursor: pointer;
+    transition: background .18s ease, color .18s ease, border-color .18s ease;
+  }
+
+  #site-header .m-fs button:hover,
+  #site-header .m-fs button:focus-visible {
+    background: #fff;
+    color: #861C1C;
+    border-color: #fff;
   }
 
   #site-header .m-fs button[aria-disabled="true"] {
     opacity: .45;
   }
 
-  /* Main row: search | logos | hamburger */
-  #site-header .m-main {
-    display: grid;
-    grid-template-columns: 48px minmax(0, 1fr) 48px;
+  #site-header .m-theme {
+    display: inline-flex;
     align-items: center;
-    padding: 5px 6px 2px;
+    justify-content: center;
+    width: 28px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  #site-header .m-theme svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+    stroke-width: 1.9;
+  }
+
+  #site-header .m-theme:hover,
+  #site-header .m-theme:focus-visible {
+    background: rgba(255,255,255,.14);
+  }
+
+  /* Search | paired government/college logos | menu. No button tiles. */
+  #site-header .m-main {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    align-items: center;
+    min-height: 58px;
+    padding: 4px 9px 0;
+    background: transparent;
+    isolation: isolate;
   }
 
   #site-header .m-search-btn,
@@ -5320,38 +5387,37 @@ line-clamp: 5;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
+    width: 42px;
     height: 44px;
     padding: 0;
-    background: none;
     border: 0;
-    color: #FFFFFF;
+    border-radius: 0;
+    background: transparent;
+    color: #fff;
     cursor: pointer;
   }
 
-  #site-header .m-search-btn {
-    justify-self: start;
-  }
-
-  #site-header .m-burger {
-    flex-direction: column;
-    gap: 5px;
-    justify-self: end;
-  }
+  #site-header .m-search-btn { justify-self: start; }
 
   #site-header .m-search-btn svg {
     display: block;
-    width: 26px;
-    height: 26px;
-    stroke-width: 2;
+    width: 27px;
+    height: 27px;
+    stroke-width: 2.1;
+  }
+
+  #site-header .m-burger {
+    justify-self: end;
+    flex-direction: column;
+    gap: 5px;
   }
 
   #site-header .m-burger span {
     display: block;
-    width: 28px;
+    width: 29px;
     height: 3px;
     border-radius: 2px;
-    background: #FFFFFF;
+    background: #fff;
     transition: transform .2s ease, opacity .2s ease;
   }
 
@@ -5359,77 +5425,148 @@ line-clamp: 5;
     transform: translateY(8px) rotate(45deg);
   }
 
-  #site-header .m-burger[aria-expanded="true"] span:nth-child(2) {
-    opacity: 0;
-  }
+  #site-header .m-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 
   #site-header .m-burger[aria-expanded="true"] span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
 
   #site-header .m-logos {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
     justify-self: center;
-    gap: 10px;
+    gap: 12px;
+    min-width: 0;
     text-decoration: none;
   }
 
   #site-header .m-logos img {
     display: block;
     width: auto;
-    height: 44px;
-    max-width: none;
+    height: 43px;
+    max-width: 46px;
     object-fit: contain;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .30));
+    background: transparent !important;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.22));
   }
 
-  /* College name, Hindi first */
   #site-header .m-name {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
+    display: block;
+    min-height: 40px;
     margin: 0;
-    padding: 2px 10px 8px;
+    padding: 0 12px 8px;
+    color: #fff;
     text-align: center;
-    color: #FFFFFF;
+    text-shadow: 0 1px 4px rgba(0,0,0,.55);
+  }
+
+  #site-header .m-name strong,
+  #site-header .m-name span {
+    display: block;
+    margin: 0;
+    font-weight: 700;
   }
 
   #site-header .m-name strong {
-    font: 700 14.5px/1.3 "Noto Sans Devanagari", Arial, sans-serif;
+    font: 700 clamp(14px, 4vw, 17px)/1.35 "Noto Sans Devanagari", Arial, sans-serif;
   }
 
   #site-header .m-name span {
-    font: 600 12.5px/1.3 Arial, sans-serif;
+    font: 600 clamp(13px, 3.6vw, 15px)/1.35 Arial, sans-serif;
   }
 
-  /* Compact state after scrolling: only the logo row stays */
+  #site-header .m-name [hidden] { display: none !important; }
+
+  #site-header .m-name .is-flipping {
+    animation: gec-name-flip .55s cubic-bezier(.2,.7,.25,1) both;
+  }
+
+  @keyframes gec-name-flip {
+    from { opacity: 0; transform: perspective(360px) rotateX(-75deg); }
+    to { opacity: 1; transform: perspective(360px) rotateX(0); }
+  }
+
+  /* The compact scrolled header restores the maroon bar and the old
+     centre-emblem curve without changing the desktop curved header. */
+  body[data-page="home"] #site-header .site-header.m-compact {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
   #site-header .site-header.m-compact .m-bar,
   #site-header .site-header.m-compact .m-name {
-    display: none;
+    display: none !important;
   }
 
   #site-header .site-header.m-compact .m-main {
-    padding-bottom: 5px;
+    height: 60px;
+    min-height: 60px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background: var(--header-maroon, #861C1C);
+    box-shadow: 0 3px 9px rgba(0,0,0,.16);
   }
 
-  /* Search panel */
+  #site-header .site-header.m-compact .m-logos::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    width: 76px;
+    height: 76px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--header-maroon, #861C1C);
+    pointer-events: none;
+  }
+
+  #site-header .site-header.m-compact .m-logos::after {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    left: 50%;
+    bottom: -13px;
+    width: 94px;
+    height: 10px;
+    transform: translateX(-50%);
+    background:
+      radial-gradient(circle 9px at 0 10px, transparent 8px, var(--header-maroon, #861C1C) 8.5px) left top / 50% 100% no-repeat,
+      radial-gradient(circle 9px at 100% 10px, transparent 8px, var(--header-maroon, #861C1C) 8.5px) right top / 50% 100% no-repeat;
+    pointer-events: none;
+  }
+
+  #site-header .site-header.m-compact .m-logos img {
+    height: 41px;
+  }
+
+  /* Search panel and navigation remain functional below the mobile header. */
   #site-header .m-search {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 5;
+    z-index: 8;
     gap: 8px;
-    padding: 8px 10px;
+    padding: 9px 12px;
     background: #6E1717;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, .25);
+    box-shadow: 0 6px 14px rgba(0,0,0,.24);
   }
 
-  #site-header .m-search.is-open {
-    display: flex;
-  }
+  #site-header .m-search.is-open { display: flex; }
 
   #site-header .m-search input {
     flex: 1 1 auto;
@@ -5438,17 +5575,17 @@ line-clamp: 5;
     padding: 0 12px;
     border: 0;
     border-radius: 6px;
-    background: #FFFFFF;
+    background: #fff;
     color: #241010;
     font: 400 16px/1 var(--font-body);
   }
 
   #site-header .m-search button {
-    flex: 0 0 44px;
-    height: 40px;
     display: flex;
+    flex: 0 0 42px;
     align-items: center;
     justify-content: center;
+    height: 40px;
     border: 0;
     border-radius: 6px;
     background: var(--chrome-accent);
@@ -5456,30 +5593,23 @@ line-clamp: 5;
     cursor: pointer;
   }
 
-  #site-header .m-search button svg {
-    width: 22px;
-    height: 22px;
-  }
+  #site-header .m-search button svg { width: 21px; height: 21px; }
 
-  /* Hamburger menu panel */
   #site-header .m-nav {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 5;
-    max-height: 65vh;
-    max-height: calc(100dvh - 140px);
+    z-index: 8;
+    max-height: calc(100dvh - 110px);
     overflow-y: auto;
     background: var(--surface);
     border-bottom: 3px solid var(--chrome-accent);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, .28);
+    box-shadow: 0 10px 22px rgba(0,0,0,.26);
   }
 
-  #site-header .m-nav.open {
-    display: block;
-  }
+  #site-header .m-nav.open { display: block; }
 
   #site-header .m-nav ul {
     list-style: none;
@@ -5518,23 +5648,64 @@ line-clamp: 5;
     border: 0;
     border-radius: 6px;
     background: var(--header-maroon);
-    color: #FFFFFF;
+    color: #fff;
   }
 
   #site-header .m-nav .m-nav-login a:hover,
   #site-header .m-nav .m-nav-login a:focus-visible {
     background: #6E1717;
-    color: #FFFFFF;
+    color: #fff;
   }
 
-  #site-header .m-nav .m-nav-login svg {
-    width: 20px;
-    height: 20px;
+  #site-header .m-nav .m-nav-login svg { width: 20px; height: 20px; }
+
+  /* On non-home pages retain a solid, readable mobile header. */
+  body:not([data-page="home"]) #site-header .site-header {
+    position: sticky !important;
+    top: 0 !important;
+    background: var(--header-maroon, #861C1C) !important;
+    border-bottom: 2px solid var(--chrome-accent) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.14) !important;
+  }
+
+  body:not([data-page="home"]) #site-header .m-main {
+    background: transparent;
   }
 }
 
+@media (max-width: 360px) {
+  #site-header .m-bar {
+    column-gap: 4px;
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+
+  #site-header .m-social { max-width: 104px; }
+  #site-header .m-social a { flex-basis: 23px; width: 23px; }
+  #site-header .m-fs { gap: 3px; }
+  #site-header .m-fs button { min-width: 28px; }
+  #site-header .m-theme { width: 25px; }
+}
+
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
-  #site-header .m-burger span {
+  #site-header .m-burger span,
+  #site-header .m-fs button {
     transition: none;
+  }
+
+  #site-header .m-name .is-flipping {
+    animation: none;
+  }
+}
+
+
+/* ==========================================================
+   MOBILE ONLY: hide the complete homepage header after scroll.
+   At the top, the existing transparent header remains visible.
+   Desktop/laptop styles and all inner pages are untouched.
+   ========================================================== */
+@media (max-width: 760px) {
+  body[data-page="home"] #site-header .site-header.m-compact {
+    display: none !important;
   }
 }
