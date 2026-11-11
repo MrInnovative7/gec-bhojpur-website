@@ -5191,3 +5191,350 @@ line-clamp: 5;
   width: 100%;
   height: auto;
 }
+
+
+/* ==========================================================
+   MOBILE HEADER (IIT Delhi-inspired) - phones only, max-width 760px.
+   The new .m-header markup is hidden everywhere else, so the desktop
+   and tablet header is unchanged. The #site-header prefix is needed to
+   win over the earlier home-page header rules that use !important.
+   ========================================================== */
+.m-header {
+  display: none;
+}
+
+@media (max-width: 760px) {
+
+  /* One solid maroon block with a thin gold edge; also overrides the home
+     transparent / scrolled (fixed-height) states */
+  #site-header .site-header {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: var(--header-maroon) !important;
+    border-bottom: 2px solid var(--chrome-accent) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .18) !important;
+  }
+
+  /* Old utility strip and old header row are replaced on phones */
+  #site-header .site-header > .header-top-info,
+  #site-header .site-header > .bar {
+    display: none !important;
+  }
+
+  #site-header .m-header {
+    display: block;
+    position: relative;
+    max-width: 100%;
+    color: #FFFFFF;
+  }
+
+  /* Slim social + accessibility bar */
+  #site-header .m-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    height: 32px;
+    padding: 0 8px;
+    background: rgba(0, 0, 0, .16);
+    border-bottom: 1px solid rgba(255, 255, 255, .16);
+  }
+
+  #site-header .m-social {
+    display: flex;
+    align-items: center;
+  }
+
+  #site-header .m-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+
+  #site-header .m-social a.is-inactive {
+    cursor: default;
+  }
+
+  #site-header .m-social svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+
+  #site-header .m-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 2px;
+    background: none;
+    border: 0;
+    color: #FFFFFF;
+    font: 600 13px/1 "Noto Sans Devanagari", var(--font-body), sans-serif;
+    cursor: default;
+    white-space: nowrap;
+  }
+
+  #site-header .m-lang svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+
+  #site-header .m-fs {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  #site-header .m-fs button {
+    min-width: 32px;
+    height: 24px;
+    padding: 0 6px;
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, .6);
+    border-radius: 4px;
+    font: 700 12px/1 var(--font-body);
+    cursor: pointer;
+  }
+
+  #site-header .m-fs button[aria-disabled="true"] {
+    opacity: .45;
+  }
+
+  /* Main row: search | logos | hamburger */
+  #site-header .m-main {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    align-items: center;
+    padding: 5px 6px 2px;
+  }
+
+  #site-header .m-search-btn,
+  #site-header .m-burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+
+  #site-header .m-search-btn {
+    justify-self: start;
+  }
+
+  #site-header .m-burger {
+    flex-direction: column;
+    gap: 5px;
+    justify-self: end;
+  }
+
+  #site-header .m-search-btn svg {
+    display: block;
+    width: 26px;
+    height: 26px;
+    stroke-width: 2;
+  }
+
+  #site-header .m-burger span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: #FFFFFF;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+
+  #site-header .m-burger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  #site-header .m-burger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  #site-header .m-burger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  #site-header .m-logos {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  #site-header .m-logos img {
+    display: block;
+    width: auto;
+    height: 44px;
+    max-width: none;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .30));
+  }
+
+  /* College name, Hindi first */
+  #site-header .m-name {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 0;
+    padding: 2px 10px 8px;
+    text-align: center;
+    color: #FFFFFF;
+  }
+
+  #site-header .m-name strong {
+    font: 700 14.5px/1.3 "Noto Sans Devanagari", Arial, sans-serif;
+  }
+
+  #site-header .m-name span {
+    font: 600 12.5px/1.3 Arial, sans-serif;
+  }
+
+  /* Compact state after scrolling: only the logo row stays */
+  #site-header .site-header.m-compact .m-bar,
+  #site-header .site-header.m-compact .m-name {
+    display: none;
+  }
+
+  #site-header .site-header.m-compact .m-main {
+    padding-bottom: 5px;
+  }
+
+  /* Search panel */
+  #site-header .m-search {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #6E1717;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .25);
+  }
+
+  #site-header .m-search.is-open {
+    display: flex;
+  }
+
+  #site-header .m-search input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 6px;
+    background: #FFFFFF;
+    color: #241010;
+    font: 400 16px/1 var(--font-body);
+  }
+
+  #site-header .m-search button {
+    flex: 0 0 44px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 6px;
+    background: var(--chrome-accent);
+    color: #1A1405;
+    cursor: pointer;
+  }
+
+  #site-header .m-search button svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Hamburger menu panel */
+  #site-header .m-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    max-height: 65vh;
+    max-height: calc(100dvh - 140px);
+    overflow-y: auto;
+    background: var(--surface);
+    border-bottom: 3px solid var(--chrome-accent);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .28);
+  }
+
+  #site-header .m-nav.open {
+    display: block;
+  }
+
+  #site-header .m-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 0;
+  }
+
+  #site-header .m-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-left: 4px solid transparent;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font: 600 15px/1.3 var(--font-body);
+    text-decoration: none;
+  }
+
+  #site-header .m-nav a:hover,
+  #site-header .m-nav a:focus-visible {
+    background: var(--soft);
+    color: var(--ink);
+  }
+
+  #site-header .m-nav a[aria-current="page"] {
+    border-left-color: var(--chrome-accent);
+    font-weight: 700;
+  }
+
+  #site-header .m-nav .m-nav-login a {
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    margin: 12px 18px 14px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--header-maroon);
+    color: #FFFFFF;
+  }
+
+  #site-header .m-nav .m-nav-login a:hover,
+  #site-header .m-nav .m-nav-login a:focus-visible {
+    background: #6E1717;
+    color: #FFFFFF;
+  }
+
+  #site-header .m-nav .m-nav-login svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  #site-header .m-burger span {
+    transition: none;
+  }
+}

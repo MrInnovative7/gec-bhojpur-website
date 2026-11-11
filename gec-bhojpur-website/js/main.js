@@ -208,9 +208,42 @@ function initNoticeScroll(list) {
   var PIN = '<img class="header-bihar-logo" src="assets/images/bihar-govt.png" alt="Government of Bihar Logo">';
   var HEADER_ADDRESS = "South East Ramna Road, near Maharaja College, Arrah, Bihar";
 
+  /* ---------- Mobile header (<=760px only; hidden by CSS on larger screens) ----------
+     Reuses SOCIAL, UTIL and NAV above. The desktop header markup below is untouched. */
+  var M_SVG = function (inner) { return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>'; };
+  var M_GLOBE = M_SVG('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z"/>');
+  var M_SEARCH = M_SVG('<circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/>');
+  var M_USER = M_SVG('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.4-7 8-7s8 2.8 8 7"/>');
+  function mLi(href, label, current, cls) {
+    return '<li' + (cls ? ' class="' + cls + '"' : '') + '><a href="' + href + '"' + (current ? ' aria-current="page"' : '') + '>' + label + '</a></li>';
+  }
+  var M_MENU =
+    mLi("index.html", "Home", page === "home") +
+    NAV.map(function (n) { return mLi(n[0], n[2] === "departments" ? "Departments" : esc(n[1]), n[2] === page); }).join("") +
+    UTIL.map(function (u) { return mLi(u[0], u[1], false); }).join("") +
+    mLi("portal.html", M_USER + "<span>Login</span>", page === "portal", "m-nav-login");
+  var M_HEADER_HTML =
+    '<div class="m-header">' +
+    '<div class="m-bar">' + SOCIAL_HTML.replace("header-social", "m-social") +
+    '<button class="m-lang" type="button" lang="hi" aria-disabled="true" aria-label="Language: Hindi (translation not available yet)" title="Hindi translation is not available yet">' + M_GLOBE + '<span>हिंदी</span></button>' +
+    '<span class="m-fs"><button id="fs-dec" type="button" aria-label="Decrease text size">A-</button>' +
+    '<button id="fs-inc" type="button" aria-label="Increase text size">A+</button></span></div>' +
+    '<div class="m-main">' +
+    '<button class="m-search-btn" id="m-search-toggle" type="button" aria-label="Open search" aria-expanded="false" aria-controls="m-sf">' + M_SEARCH + '</button>' +
+    '<a class="m-logos" href="index.html" aria-label="Government Engineering College, Bhojpur - Home">' +
+    '<img class="m-logo-bihar" src="assets/images/bihar-govt.png" alt="Government of Bihar Logo">' +
+    '<img class="m-logo-gec" src="assets/images/Transparent_logo.png" alt="Government Engineering College, Bhojpur Logo"></a>' +
+    '<button class="m-burger" id="m-bg" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="m-nav"><span></span><span></span><span></span></button>' +
+    '</div>' +
+    '<p class="m-name"><strong lang="hi">राजकीय अभियंत्रण महाविद्यालय, भोजपुर</strong><span>' + esc(D.info.name) + '</span></p>' +
+    '<form class="m-search" id="m-sf" role="search" action="notices.html"><input id="m-q" name="q" placeholder="Search notices" aria-label="Search notices"><button type="submit" aria-label="Search">' + M_SEARCH + '</button></form>' +
+    '<nav class="m-nav" id="m-nav" aria-label="Main menu"><ul>' + M_MENU + '</ul></nav>' +
+    '</div>';
+
   var headerHTML =
     '<a class="skip" href="#main">Skip to content</a>' +
     '<header class="site-header">' +
+    M_HEADER_HTML +
     '<div class="header-top-info"><div class="utility-inner">' +
     '<nav class="utility-links" aria-label="Quick links">' + UTIL.map(function (u) {
       return '<a href="' + u[0] + '">' + u[2] + '<span>' + u[1] + '</span></a>';
@@ -384,6 +417,53 @@ function initNoticeScroll(list) {
       }
     };
   }
+
+  /* ---------- Mobile header behaviour (elements always exist; CSS shows them <=760px) ---------- */
+  (function () {
+    var hdr = $(".site-header"), mBg = $("#m-bg"), mNav = $("#m-nav"),
+        mSBtn = $("#m-search-toggle"), mSf = $("#m-sf"), mQ = $("#m-q"),
+        dec = $("#fs-dec"), inc = $("#fs-inc");
+    if (!hdr || !mBg || !mNav) return;
+    function setMenu(open) {
+      mNav.classList.toggle("open", open);
+      mBg.setAttribute("aria-expanded", String(open));
+      mBg.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    function setSearch(open) {
+      mSf.classList.toggle("is-open", open);
+      mSBtn.setAttribute("aria-expanded", String(open));
+      if (open && mQ) mQ.focus();
+    }
+    mBg.onclick = function () { var open = !mNav.classList.contains("open"); setMenu(open); if (open) setSearch(false); };
+    mSBtn.onclick = function () { var open = !mSf.classList.contains("is-open"); setSearch(open); if (open) setMenu(false); };
+    mSf.onsubmit = function (e) { if (!mQ.value.trim()) { e.preventDefault(); mQ.focus(); } };
+    mNav.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a");
+      if (a && a.getAttribute("href") === "#") { e.preventDefault(); setMenu(false); }
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setMenu(false); setSearch(false); } });
+    window.addEventListener("resize", function () { if (window.innerWidth > 760) { setMenu(false); setSearch(false); } });
+
+    /* A- / A+ share the existing text-size state (sizes, sizeIdx, "gec-size") */
+    function applySize(i) {
+      sizeIdx = Math.max(0, Math.min(sizes.length - 1, i));
+      root.style.fontSize = sizes[sizeIdx] + "%"; store.set("gec-size", sizeIdx);
+      dec.setAttribute("aria-disabled", String(sizeIdx === 0));
+      inc.setAttribute("aria-disabled", String(sizeIdx === sizes.length - 1));
+    }
+    dec.onclick = function () { applySize(sizeIdx - 1); };
+    inc.onclick = function () { applySize(sizeIdx + 1); };
+    dec.setAttribute("aria-disabled", String(sizeIdx === 0));
+    inc.setAttribute("aria-disabled", String(sizeIdx === sizes.length - 1));
+
+    /* Home page only (its header turns fixed on scroll): compact mobile header hides the slim bar and names.
+       Inner-page headers scroll away with the page, exactly as before. */
+    if (page === "home") {
+      var onScroll = function () { hdr.classList.toggle("m-compact", (window.pageYOffset || 0) > 20); };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+  })();
 
   /* ---------- renderers ---------- */
   var R = {
